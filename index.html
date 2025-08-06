@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>a RPS game</title>
+    <style>
+        body {
+            background-color: #dab3ff;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: blueviolet;
+            font-style: italic;
+            margin-top: 50px;
+        }
+
+        p {
+            color: #4e4ef0;
+            font-size: 18px;
+        }
+
+        .game-area {
+            margin-top: 100px;
+        }
+
+        .selections {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 0 80px;
+        }
+
+        .choice-box {
+            background-color: #f3e5f5;
+            padding: 20px;
+            border-radius: 12px;
+            width: 40%;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4a148c;
+        }
+
+        .result-box {
+            font-size: 22px;
+            font-weight: bold;
+            color: #880e4f;
+            margin-bottom: 50px;
+        }
+
+        .button-row {
+            margin-top: 40px;
+        }
+
+        .rps-button {
+            background-color: #ffb3b3;
+            color: white;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .rps-button:hover {
+            background-color: #ff8080;
+        }
+
+        .score-box {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #4e148c;
+        }
+
+        .winner-text {
+            font-size: 28px;
+            color: #000;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>welcome to the rock paper scissors game <3</h1>
+    <p>click a button to play, choose wisely</p>
+
+    <div class="game-area">
+        <!-- Seçimler -->
+        {% if player_choice and comp_choice %}
+        <div class="selections">
+            <div class="choice-box">🧍‍♀️ You picked: <strong>{{ player_choice }}</strong></div>
+            <div class="choice-box">🤖 Computer picked: <strong>{{ comp_choice }}</strong></div>
+        </div>
+        {% endif %}
+
+        <!-- Sonuç -->
+        {% if result %}
+        <div class="result-box">{{ result }}</div>
+        {% endif %}
+
+        <!-- Skor -->
+        <div class="score-box">
+            👤 You: {{ user_score }} | 🤖 Computer: {{ comp_score }}
+        </div>
+
+        <!-- Butonlar veya Oyun Bitti -->
+        {% if not game_over %}
+        <div class="button-row">
+            <form method="POST">
+                <button class="rps-button" type="submit" name="choice" value="Rock">🪨 Rock</button>
+                <button class="rps-button" type="submit" name="choice" value="Paper">📄 Paper</button>
+                <button class="rps-button" type="submit" name="choice" value="Scissors">✂️ Scissors</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="winner-text">
+            {% if user_score == 3 %}
+                congrats you win
+            {% else %}
+                computer wins :(
+            {% endif %}
+            <br><br>
+            <a href="{{ url_for('reset') }}">
+                <button class="rps-button">Play Again</button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
